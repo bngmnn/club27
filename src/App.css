@@ -1,0 +1,12 @@
+@import url('https://fonts.googleapis.com/css2?family=Merriweather:ital,opsz,wght@0,18..144,300..900;1,18..144,300..900&family=Rock+Salt&display=swap');
+@import "tailwindcss";
+
+@theme {
+    --font-cursive: 'Rock Salt', cursive;
+    --font-sans: 'Roboto', sans-serif;
+    --font-serif: 'Merriweather', serif;
+}
+
+body {
+    @apply bg-gray-100 h-screen max-h-screen overflow-y-hidden text-gray-800;
+}
