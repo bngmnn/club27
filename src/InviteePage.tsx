@@ -124,12 +124,6 @@ function App() {
     
   return (
     <>
-    <head>
-            <title>White Stag Party</title>
-            <meta name="description" content="White Stag Party" />
-            <meta name="viewport" content="width=device-width, initial-scale=1" />
-            <link rel="icon" href="/stag.png" />
-        </head>
       <main className='flex flex-col items-center w-screen min-h-screen font-serif text-gray-700/90 overflow-x-hidden overflow-y-auto px-8 pb-8'>
         <LogoArea />
         <div className='w-full overflow-hidden max-w-full fixed top-0 left-0 h-full'>

@@ -7,6 +7,12 @@ import InvitationList from './InvitationList'; // The new invitation list compon
 function App() {
     return (
         <>
+        <head>
+            <title>White Stag Party</title>
+            <meta name="description" content="White Stag Party" />
+            <meta name="viewport" content="width=device-width, initial-scale=1" />
+            <link rel="icon" href="/stag.png" />
+        </head>
         <Router>
             <Routes>
                 <Route path="/" element={<InviteePage />} /> {/* Your existing component */}
