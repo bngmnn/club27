@@ -73,6 +73,7 @@ function InvitationList() {
             <table className="min-w-full bg-white border border-gray-300 rounded shadow">
                 <thead>
                     <tr className="bg-gray-200 text-gray-700">
+                        <th className="py-2 px-4 border-b">Link</th>
                         <th className="py-2 px-4 border-b">Name</th>
                         <th className="py-2 px-4 border-b">Einladungsstatus</th>
                     </tr>
