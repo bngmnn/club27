@@ -2,6 +2,8 @@ import { LogoArea } from './LogoArea';
 import { useCallback, useEffect, useState } from 'react';
 import { AddToCalendarButton, AddToCalendarButtonType } from 'add-to-calendar-button-react';
 import { createClient } from '@supabase/supabase-js'
+import { ThumbsDown, ThumbsUp } from 'lucide-react';
+import { Resend } from 'resend';
 import './App.css'
 
 const supabaseUrl = import.meta.env.VITE_SUPABASE_URL;
@@ -9,6 +11,8 @@ const supabaseKey = import.meta.env.VITE_SUPABASE_ANON_KEY;
 const supabase = createClient(supabaseUrl, supabaseKey);
 
 function App() {
+
+    const resend = new Resend(import.meta.env.VITE_RESEND_API_KEY);
 
     const calendarEvent: AddToCalendarButtonType = {
       name: 'Marvins 27 ½ Geburtstag',
@@ -49,6 +53,13 @@ function App() {
         return; // Or handle error accordingly
       }
       console.log(data);
+
+      resend.emails.send({
+        from: 'post@marvinbangemann.de',
+        to: 'marvin@bngmnn.de',
+        subject: `Geburtstagseinladung was ${state} by ${inviteeName}`,
+        html: `<p>Die Einladung wurde ${state} von ${inviteeName}!</p>`
+      });
     }
     
     async function acceptInvitation() {
@@ -105,9 +116,9 @@ function App() {
 
   return (
     <>
-      <main className='flex flex-col items-center w-screen min-h-screen font-serif text-gray-700/90 overflow-hidden'>
+      <main className='flex flex-col items-center w-screen min-h-screen font-serif text-gray-700/90 overflow-x-hidden overflow-y-auto px-8 pb-8'>
         <LogoArea />
-        <div className='w-full overflow-x-hidden max-w-full fixed top-0 left-0 h-full'>
+        <div className='w-full overflow-hidden max-w-full fixed top-0 left-0 h-full'>
           <div className="bg-radial from-teal-300 via-transparent to-transparent w-[600px] h-full translate-y-1/2 scale-125 absolute bottom-0 -z-10 overflow-x-hidden"></div>  
           <div className="bg-radial from-purple-400 via-transparent to-transparent w-[800px] h-full translate-y-1/3 left-0 scale-125 absolute bottom-0 -z-10 overflow-x-hidden"></div>  
         </div>
@@ -115,17 +126,30 @@ function App() {
           {isLoading && <p className="text-center">Loading...</p>}
           {invitationState === "pending" && !isLoading &&
           <>
-            <p className="text-center">Du hast die Einladung noch nicht beantwortet.</p>
-            <strong className="text-2xl text-center font-black">Moin {inviteeName} </strong>
-            <div className="flex gap-4">
-              <button onClick={acceptInvitation} className="text-green-700 font-black px-4 py-2 rounded">Ich komme sehr gerne!</button>
-              <button onClick={declineInvitation} className="text-red-800 font-black px-4 py-2 rounded">Ich kann leider nicht</button>
+          <div className="text-left">
+            <strong className="text-2xl mb-2 block font-black">Moin {inviteeName} </strong>
+            <p className="text-justify">Ich lade dich zu meinem 27 ½ Geburtstag ein!
+            <strong className="block my-2">Was?! 27 ½?</strong>
+              Absolut richtig! Die Queen hat ihrerzeit ihren Geburtstag 
+              lieber im Sommer gefeiert und ich werde es ihr jetzt gleichtun. 
+              <br />
+              Glücklicherweise lässt sich das auch mit der Einweihung unseres neuen Zuhauses,
+              nach Monaten der Renovierung und Wochen der Vorbereitung, kombinieren.
+              <br /><br />
+              Ich wäre super happy, wenn du gemeinsam mit uns feiern am 14. Juni 25 feiern würdest.
+            </p>
+            </div>
+            <div className="flex flex-row justify-around gap-8 my-4">
+              <button onClick={declineInvitation} className="text-red-800 font-black p-8 rounded-2xl border-red-800 border-2 hover:bg-red-400 hover:text-white"><ThumbsDown size={40} strokeWidth={2} /></button>
+              <button onClick={acceptInvitation} className="text-green-700 font-black p-8 rounded-2xl border-green-700 border-2 hover:bg-green-300 hover:text-white"><ThumbsUp size={40} strokeWidth={2}/></button>
             </div>
           </>
           }
           {invitationState === "accepted" && !isLoading && 
             <>
               <div data-calendar-buttons className="text-center">
+                <p className="text-center">Du hast die Einladung angenommen!</p>
+                <p className="text-center">Nice! Ich freue mich auf dich!</p>
                 <strong className="text-2xl text-center font-black">Save the date!</strong>
                 <AddToCalendarButton {...calendarEvent}></AddToCalendarButton>
               </div>

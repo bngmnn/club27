@@ -13,10 +13,10 @@
         max-height: 100vh;
     }
     100% {
-        max-height: 400px;
+        max-height: 320px;
     }
 }
 
 body {
-    @apply bg-gray-100 h-screen max-h-screen overflow-y-hidden text-gray-800;
+    @apply bg-gray-100 h-screen max-h-screen text-gray-800;
 }
