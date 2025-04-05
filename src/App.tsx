@@ -1,5 +1,5 @@
 import { LogoArea } from './LogoArea';
-import { useCallback, useEffect, useMemo, useState } from 'react';
+import { useCallback, useEffect, useState } from 'react';
 import { AddToCalendarButton, AddToCalendarButtonType } from 'add-to-calendar-button-react';
 import { createClient } from '@supabase/supabase-js'
 import './App.css'
