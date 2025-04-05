@@ -71,7 +71,6 @@ function App() {
       }
       console.log(data);
       setInvitationState(data.invitation_state);
-      setIsLoading(false);
     }
 
     const [inviteeName, setInviteeName] = useState<string>("");
@@ -90,13 +89,13 @@ function App() {
         console.error(error);
         return; // Or handle error accordingly
       }
-      setIsLoading(false);
       console.log(data);
       setInviteeName(data.name);
     }, []);
 
     useEffect(() => {
       setUserIdFromUrl();
+      setIsLoading(false);
     }, []);
 
     useEffect(() => {
