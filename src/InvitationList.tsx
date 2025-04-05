@@ -2,6 +2,7 @@
 import { useEffect, useState } from 'react';
 import { supabase } from './client';
 import { ClipboardCopy } from 'lucide-react';
+import './App.css'
 
 type Invitation = {
     id: number;
@@ -66,6 +67,13 @@ function InvitationList() {
     };
 
     return (
+        <>
+        <head>
+            <title>White Stag Party</title>
+            <meta name="description" content="White Stag Party" />
+            <meta name="viewport" content="width=device-width, initial-scale=1" />
+            <link rel="icon" href="/stag.png" />
+        </head>
         <div className="container mx-auto p-4">
             <h1 className="text-2xl font-bold mb-4">Einladungsstatus</h1>
             <table className="min-w-full bg-white border border-gray-300 rounded shadow">
@@ -86,6 +94,7 @@ function InvitationList() {
                 </tbody>
             </table>
         </div>
+        </>
     );
 }
 
