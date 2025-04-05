@@ -113,10 +113,17 @@ function App() {
           <div className="bg-radial from-purple-400 via-transparent to-transparent w-[800px] h-full translate-y-1/3 left-0 scale-125 absolute bottom-0 -z-10 overflow-x-hidden"></div>  
         </div>
         <div className="relative z-0 bg-transparent mt-8">
-          
-
-          
           {isLoading && <p className="text-center">Loading...</p>}
+          {invitationState === "pending" && !isLoading &&
+          <>
+            <p className="text-center">Du hast die Einladung noch nicht beantwortet.</p>
+            <strong className="text-2xl text-center font-black">Moin {inviteeName} </strong>
+            <div className="flex gap-4">
+              <button onClick={acceptInvitation} className="text-green-700 font-black px-4 py-2 rounded">Ich komme sehr gerne!</button>
+              <button onClick={declineInvitation} className="text-red-800 font-black px-4 py-2 rounded">Ich kann leider nicht</button>
+            </div>
+          </>
+          }
           {invitationState === "accepted" && !isLoading && 
             <>
               <div data-calendar-buttons className="text-center">
@@ -128,11 +135,6 @@ function App() {
           {invitationState === "declined" && !isLoading && 
           <>
             <p className="text-center">Du hast die Einladung bereits abgelehnt.</p>
-            <strong className="text-2xl text-center font-black">Moin {inviteeName} </strong>
-            <div className="flex gap-4">
-              <button onClick={acceptInvitation} className="text-green-700 font-black px-4 py-2 rounded">Ich komme sehr gerne!</button>
-              <button onClick={declineInvitation} className="text-red-800 font-black px-4 py-2 rounded">Ich kann leider nicht</button>
-            </div>
           </>
           }
           </div>
