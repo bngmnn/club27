@@ -2,6 +2,7 @@
 import { BrowserRouter as Router, Routes, Route } from 'react-router-dom';
 import InvitationList from './InvitationList'; // New invitation list component
 import InviteePage from './InviteePage'; // Your existing invitee component
+import Dresscode from './Dresscode';
 import './App.css';
 
 function App() {
