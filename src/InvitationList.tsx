@@ -53,7 +53,7 @@ function InvitationList() {
         }
     };
     const copyUserLink = (userId: string) => {
-        const userLink = `https://geburtstag.marvinbangemann.de/${userId}`;
+        const userLink = `https://geburtstag.marvinbangemann.de/?user_id=${userId}`;
         navigator.clipboard.writeText(userLink)
             .then(() => {
                 console.log('User link copied to clipboard:', userLink);
