@@ -63,6 +63,8 @@ function InviteePage() {
         subject: `Geburtstagseinladung was ${state} by ${inviteeName}`,
         html: `<p>Die Einladung wurde ${state} von ${inviteeName}!</p>`
       });
+        
+      window.location.reload()
     }
     
     async function acceptInvitation() {
