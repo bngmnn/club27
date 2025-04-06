@@ -10,6 +10,7 @@ function App() {
             <Routes>
                 <Route path="/" element={<InviteePage />} /> {/* Your existing component */}
                 <Route path="/invitations" element={<InvitationList />} /> {/* New route to see all invitations */}
+                <Route path="/dresscode" element={<Dresscode />} />
             </Routes>
         </Router>
     );
