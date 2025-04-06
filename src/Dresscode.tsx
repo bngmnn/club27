@@ -1,6 +1,7 @@
 import React from "react";
 import { Sparkles, PartyPopper, Sun, Undo2 } from "lucide-react";
 import { Link } from "react-router-dom";
+import "./App.css";
 
 const Dresscode = () => {
   return (
