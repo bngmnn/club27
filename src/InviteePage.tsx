@@ -124,8 +124,8 @@ function InviteePage() {
       <main className='flex flex-col items-center w-screen min-h-screen font-serif text-gray-700/90 overflow-x-hidden overflow-y-auto px-8 pb-8'>
         <LogoArea />
         <div className='w-full overflow-hidden max-w-full fixed top-0 left-0 h-full'>
-          <div className="bg-radial from-teal-300 via-transparent to-transparent w-[600px] h-full translate-y-1/2 scale-125 absolute bottom-0 -z-10 overflow-x-hidden"></div>  
-          <div className="bg-radial from-purple-400 via-transparent to-transparent w-[800px] h-full translate-y-1/3 left-0 scale-125 absolute bottom-0 -z-10 overflow-x-hidden"></div>  
+          <div className="bg-radial from-amber-100 via-transparent to-transparent w-[600px] h-full translate-y-1/2 scale-125 absolute bottom-0 -z-10 overflow-x-hidden"></div>  
+          <div className="bg-radial from-stone-300 via-transparent to-transparent w-[800px] h-full translate-y-1/3 left-0 scale-125 absolute bottom-0 -z-10 overflow-x-hidden"></div>  
         </div>
         <div className="relative z-0 bg-transparent mt-8">
           {isLoading && <p className="text-center">Loading...</p>}
@@ -141,7 +141,7 @@ function InviteePage() {
               Glücklicherweise lässt sich das auch mit der Einweihung unseres neuen Zuhauses,
               nach Monaten der Renovierung und Wochen der Vorbereitung, kombinieren.
               <br /><br />
-              Ich wäre super happy, wenn du gemeinsam mit uns feiern am 14. Juni 25 feiern würdest.
+              Ich wäre super happy, wenn du gemeinsam mit uns am 14. Juni 25 feiern würdest.
             </p>
             </div>
             <div className="flex flex-row justify-around gap-8 my-4">
@@ -156,6 +156,8 @@ function InviteePage() {
                 <p className="text-center text-xl">Du hast die Einladung angenommen!</p>
                 <p className="text-center">Nice! Ich freue mich auf dich!</p>
                 <AddToCalendarButton {...calendarEvent}></AddToCalendarButton>
+
+                <a className="text-white bg-amber-500 font-black p-4 rounded" href="/dresscode">Zum Dresscode</a>
 
                 <button className="text-red-800 font-black p-4 border rounded" onClick={declineInvitation}>Ich kann leider doch nicht kommen</button>
               </div>
