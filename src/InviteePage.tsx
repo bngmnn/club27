@@ -123,7 +123,7 @@ function InviteePage() {
     
   return (
     <>
-      <main className='flex flex-col items-center w-screen min-h-screen font-serif text-gray-700/90 overflow-x-hidden overflow-y-auto px-8 pb-8'>
+      <main className={`flex flex-col items-center w-screen min-h-screen font-serif text-gray-700/90 overflow-x-hidden overflow-y-auto px-8 pb-8 ${!!userId ? '' : 'max-h-screen'}`}>
         <LogoArea animateLogo={!!userId} />
         <div className='w-full overflow-hidden max-w-full fixed top-0 left-0 h-full'>
           <div className="bg-radial from-amber-200 via-transparent to-transparent w-[600px] h-full translate-y-1/2 scale-125 absolute bottom-0 -z-10 overflow-x-hidden"></div>  
