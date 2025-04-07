@@ -1,8 +1,17 @@
 import { Sparkles, PartyPopper, Sun, Undo2 } from "lucide-react";
 import { Link } from "react-router-dom";
+import Masonry from "react-masonry-css";
 import "./App.css";
 
 const Dresscode = () => {
+
+  const imageModules = import.meta.glob('/src/assets/dresscode/*.{jpg,jpeg,png,webp}', {
+    eager: true,
+    as: 'url',
+  });
+  
+  const imageUrls = Object.values(imageModules); // Array of all image URLs
+
   return (
     <div className="min-h-screen bg-white text-neutral-900 px-6 py-12 md:px-12">
       <div className="max-w-3xl mx-auto text-center space-y-8">
@@ -12,18 +21,18 @@ const Dresscode = () => {
         </div>
 
         <p className="text-lg text-neutral-600">
-          Stell dir ein Festival im Garten vor: weiß, luftig, verspielt – und du mittendrin.
+          Erlaubt ist alles, worin du dich wohlfühlst. Wenn du passende Klamotten hast, zieh dir aber gern' etwas passendes an!
         </p>
 
         <div className="grid md:grid-cols-2 gap-8 text-left">
           <div>
             <h2 className="text-xl font-semibold flex items-center gap-2">
-              <Sun className="text-orange-400" /> Was passt gut?
+              <Sun className="text-amber-400" /> Was ist erlaubt?
             </h2>
             <ul className="mt-4 list-disc list-inside space-y-2">
-              <li>Weiße Shirts, Kleider, Hemden</li>
+              <li>Helle Shirts, Kleider, Hemden</li>
               <li>Beige, Creme & Leinentöne</li>
-              <li>Weiße Sneaker, Sandalen</li>
+              <li>Helle Sneaker, Sandalen, Flip Flops</li>
               <li>Festival-Vibes: Glitzer, Sonnenbrille, Hut</li>
               <li>Lässig, leicht, zum Tanzen gemacht</li>
             </ul>
@@ -31,7 +40,7 @@ const Dresscode = () => {
 
           <div>
             <h2 className="text-xl font-semibold flex items-center gap-2">
-              <Undo2 className="text-red-400" /> Lieber nicht
+              <Undo2 className="text-red-400" /> Was g
             </h2>
             <ul className="mt-4 list-disc list-inside space-y-2">
               <li>Dunkle oder knallige Farben</li>
@@ -39,6 +48,20 @@ const Dresscode = () => {
               <li>Business-Outfits</li>
             </ul>
           </div>
+        </div>
+
+        {/* 🖼 Masonry Image Grid */}
+        <div className="mt-12">
+          <h2 className="text-xl font-semibold mb-4">Inspiration</h2>
+          <Masonry
+            breakpointCols={{ default: 2, 768: 1 }}
+            className="flex gap-4"
+            columnClassName="masonry-column"
+          >
+            {imageUrls.map((src, idx) => (
+              <img key={idx} src={src} alt={`Inspiration ${idx + 1}`} className="rounded-lg shadow-md mb-4 w-full" />
+            ))}
+          </Masonry>
         </div>
 
         <div className="bg-yellow-50 p-6 rounded-xl shadow-inner mt-8">
