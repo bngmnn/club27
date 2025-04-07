@@ -50,7 +50,7 @@ const Dresscode = () => {
           </div>
         </div>
 
-        <div className="mt-10">
+        <div className="mt-10 flex flex-col sm:flex-row gap-4">
           <Link
             to="/"
             className="inline-flex items-center gap-2 text-sm text-neutral-700 hover:text-neutral-900 transition"
