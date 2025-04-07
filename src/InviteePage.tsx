@@ -177,7 +177,7 @@ function InviteePage() {
       getInvitationState();
       getPlusOneName();
       getPlusOneUserId();
-    }, [userId, plusOneName]);
+    }, [userId]);
     
   return (
     <>
@@ -216,18 +216,16 @@ function InviteePage() {
                 <p className="text-center text-xl">Du hast die Einladung angenommen!</p>
                 <p className="text-center">Nice! Ich freue mich auf dich!</p>
                 <AddToCalendarButton {...calendarEvent}></AddToCalendarButton>
+              <hr className="w-full border-amber-900/30" />
 
                 <a className="text-white bg-amber-500 font-black p-4 rounded" href="/dresscode">Zum Dresscode</a>
+
+              <hr className="w-full border-amber-900/30" />
                 {
                 !!plusOneName && 
                 <>
-                  <p className="text-center">Du hast deinen +1 eingeladen: {plusOneName}</p>
-                  <a className="text-amber-500 inline-flex items-center gap-2 cursor-pointer" onClick={() => copyUserLink(plusOneUserId)}><Link className='w-4 h-4' />Einladungslink kopieren</a>
-                  <p className="text-center">Du möchtest deinen +1 ändern?</p>
-                  <div className="flex items-center w-full">
-                    <input id="plusOneNameInput" className="w-full bg-white rounded rounded-r-none py-2 px-4" placeholder="Gib den Vornamen deines +1 ein"/>
-                    <button className="bg-amber-500 text-white rounded rounded-l-none p-2 px-4 font-bold" onClick={addPlusOne}>+1</button>
-                  </div>
+                  <a className="text-amber-500 inline-flex items-center gap-2 cursor-pointer" onClick={() => copyUserLink(plusOneUserId)}><Link className='w-4 h-4' />Einladungslink für <strong>{plusOneName}</strong> kopieren</a>
+                  <button className="text-center text-amber-700" onClick={() => setPlusOneName("")}>Du möchtest deinen +1 ändern?</button>
                 </>
                 }
                 {!plusOneName && 
@@ -239,7 +237,7 @@ function InviteePage() {
                   </div>
                 </>
                 }
-
+              <hr className="w-full border-amber-900/30" />
                 <button className="text-red-800 font-black p-4 border rounded" onClick={declineInvitation}>Ich kann leider doch nicht kommen</button>
               </div>
             </>
