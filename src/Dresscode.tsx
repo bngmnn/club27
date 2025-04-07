@@ -40,7 +40,7 @@ const Dresscode = () => {
 
           <div>
             <h2 className="text-xl font-semibold flex items-center gap-2">
-              <Undo2 className="text-red-400" /> Was g
+              <Undo2 className="text-red-400" /> Was geht nicht?
             </h2>
             <ul className="mt-4 list-disc list-inside space-y-2">
               <li>Dunkle oder knallige Farben</li>
@@ -54,7 +54,7 @@ const Dresscode = () => {
         <div className="mt-12">
           <h2 className="text-xl font-semibold mb-4">Inspiration</h2>
           <Masonry
-            breakpointCols={{ default: 2, 768: 1 }}
+            breakpointCols={{ default: 4, 768: 3, 540: 2 }}
             className="flex gap-4"
             columnClassName="masonry-column"
           >
@@ -66,7 +66,7 @@ const Dresscode = () => {
 
         <div className="bg-yellow-50 p-6 rounded-xl shadow-inner mt-8">
           <p className="text-lg font-medium">
-            Hauptsache: <span className="text-yellow-600">Du fühlst dich wohl</span>, es ist luftig, hell und du bist bereit für eine richtig gute Zeit!
+            Hauptsache: <span className="text-yellow-600">Du fühlst dich wohl</span>, es ist luftig, hell und du bringst gute Laune mit!
           </p>
         </div>
 
