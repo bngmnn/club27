@@ -1,4 +1,4 @@
-import { Sparkles, PartyPopper, Sun, Undo2 } from "lucide-react";
+import { Sparkles, PartyPopper, Sun, Undo2, Lightbulb } from "lucide-react";
 import { Link } from "react-router-dom";
 import Masonry from "react-masonry-css";
 import "./App.css";
@@ -50,8 +50,31 @@ const Dresscode = () => {
           </div>
         </div>
 
+        <div className="mt-10">
+          <Link
+            to="/"
+            className="inline-flex items-center gap-2 text-sm text-neutral-700 hover:text-neutral-900 transition"
+          >
+            <PartyPopper className="w-4 h-4" />
+            Zurück zur Einladung
+          </Link>
+          <Link
+            to="/dresscode/#inspiration"
+            className="inline-flex items-center gap-2 text-sm text-amber-700 hover:text-amber-900 transition"
+          >
+            <Lightbulb className="w-4 h-4" />
+            Lass dich inspirieren
+          </Link>
+        </div>
+
+        <div className="bg-yellow-50 p-6 rounded-xl shadow-inner mt-8">
+          <p className="text-lg font-medium">
+            Hauptsache: <span className="text-yellow-600">Du fühlst dich wohl</span>, es ist luftig, hell und du bringst gute Laune mit!
+          </p>
+        </div>
+
         {/* 🖼 Masonry Image Grid */}
-        <div className="mt-12">
+        <div className="mt-12" id="inspiration">
           <h2 className="text-xl font-semibold mb-4">Inspiration</h2>
           <Masonry
             breakpointCols={{ default: 4, 768: 3, 540: 2 }}
@@ -62,12 +85,6 @@ const Dresscode = () => {
               <img key={idx} src={src} alt={`Inspiration ${idx + 1}`} className="rounded-lg shadow-md mb-4 w-full" />
             ))}
           </Masonry>
-        </div>
-
-        <div className="bg-yellow-50 p-6 rounded-xl shadow-inner mt-8">
-          <p className="text-lg font-medium">
-            Hauptsache: <span className="text-yellow-600">Du fühlst dich wohl</span>, es ist luftig, hell und du bringst gute Laune mit!
-          </p>
         </div>
 
         <div className="mt-10">
