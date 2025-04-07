@@ -1,10 +1,11 @@
 import { LogoArea } from './LogoArea';
 import { useCallback, useEffect, useState } from 'react';
 import { AddToCalendarButton, AddToCalendarButtonType } from 'add-to-calendar-button-react';
-import { ThumbsDown, ThumbsUp } from 'lucide-react';
+import { Link, ThumbsDown, ThumbsUp } from 'lucide-react';
 import { Resend } from 'resend';
 import { supabase } from './client';
 import './App.css'
+import { copyUserLink } from './InvitationList';
 
 function InviteePage() {
 
@@ -89,12 +90,42 @@ function InviteePage() {
       console.log(data);
       setInvitationState(data.invitation_state);
     }
+    async function addPlusOne() {
+      const plusOneNameInput = document.getElementById("plusOneNameInput") as HTMLInputElement;
+      const plusOneName = plusOneNameInput.value;
+      const { data, error } = await supabase
+        .from("guests")
+        .insert({ name: plusOneName, invited_by: userId })
+        .select();
+      if (error) {
+        console.error(error);
+        return; // Or handle error accordingly
+      }
+      console.log(data);
+      setPlusOneName(plusOneName);
+      plusOneNameInput.value = "";
+      await updatePlusOneInCurrentUser(plusOneName);
+    }
+    async function updatePlusOneInCurrentUser(plusOneName: string) {
+      const { data, error } = await supabase
+        .from("guests")
+        .update({ plus_one_name: plusOneName })
+        .eq("user_id", userId)
+        .select();
+      if (error) {
+        console.error(error);
+        return; // Or handle error accordingly
+      }
+      console.log(data);
+    }
 
     const [inviteeName, setInviteeName] = useState<string>("");
     const [invitationState, setInvitationState] = useState<string>("");
     const [userId, setUserId] = useState<string | null>(window.localStorage.getItem("user_id"));
     const [isLoading, setIsLoading] = useState<boolean>(true);
 
+    const [plusOneName, setPlusOneName] = useState<string>("");
+    const [plusOneUserId, setPlusOneUserId] = useState<string | undefined>();
 
     const getName = useCallback(async () => {
       const { data, error } = await supabase
@@ -110,6 +141,31 @@ function InviteePage() {
       setInviteeName(data.name);
     }, []);
 
+    const getPlusOneName = useCallback(async () => {
+      const { data, error } = await supabase
+        .from("guests")
+        .select("plus_one_name")
+        .eq("user_id", window.localStorage.getItem("user_id"))
+        .single();
+      if (error) {
+        console.error(error);
+        return; // Or handle error accordingly
+      }
+      setPlusOneName(data.plus_one_name);
+    }, []);
+    const getPlusOneUserId = useCallback(async () => {
+      const { data, error } = await supabase
+        .from("guests")
+        .select("user_id")
+        .eq("name", plusOneName)
+        .single();
+      if (error) {
+        console.error(error);
+        return; // Or handle error accordingly
+      }
+      setPlusOneUserId(data.user_id);
+    }, [plusOneName]);
+
     useEffect(() => {
       setUserIdFromUrl();
       setIsLoading(false);
@@ -119,7 +175,9 @@ function InviteePage() {
     useEffect(() => {
       getName();
       getInvitationState();
-    }, [userId]);
+      getPlusOneName();
+      getPlusOneUserId();
+    }, [userId, plusOneName]);
     
   return (
     <>
@@ -160,6 +218,27 @@ function InviteePage() {
                 <AddToCalendarButton {...calendarEvent}></AddToCalendarButton>
 
                 <a className="text-white bg-amber-500 font-black p-4 rounded" href="/dresscode">Zum Dresscode</a>
+                {
+                !!plusOneName && 
+                <>
+                  <p className="text-center">Du hast deinen +1 eingeladen: {plusOneName}</p>
+                  <a className="text-amber-500 inline-flex items-center gap-2 cursor-pointer" onClick={() => copyUserLink(plusOneUserId)}><Link className='w-4 h-4' />Einladungslink kopieren</a>
+                  <p className="text-center">Du möchtest deinen +1 ändern?</p>
+                  <div className="flex items-center w-full">
+                    <input id="plusOneNameInput" className="w-full bg-white rounded rounded-r-none py-2 px-4" placeholder="Gib den Vornamen deines +1 ein"/>
+                    <button className="bg-amber-500 text-white rounded rounded-l-none p-2 px-4 font-bold" onClick={addPlusOne}>+1</button>
+                  </div>
+                </>
+                }
+                {!plusOneName && 
+                <>
+                  <p className="text-center">Du willst noch jemanden mitbringen?</p>
+                  <div className="flex items-center w-full">
+                    <input id="plusOneNameInput" className="w-full bg-white rounded rounded-r-none py-2 px-4" placeholder="Gib den Vornamen deines +1 ein"/>
+                    <button className="bg-amber-500 text-white rounded rounded-l-none p-2 px-4 font-bold" onClick={addPlusOne}>+1</button>
+                  </div>
+                </>
+                }
 
                 <button className="text-red-800 font-black p-4 border rounded" onClick={declineInvitation}>Ich kann leider doch nicht kommen</button>
               </div>

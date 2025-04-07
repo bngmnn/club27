@@ -52,16 +52,7 @@ function InvitationList() {
                 return '';
         }
     };
-    const copyUserLink = (userId: string) => {
-        const userLink = `https://geburtstag.marvinbangemann.de/?user_id=${userId}`;
-        navigator.clipboard.writeText(userLink)
-            .then(() => {
-                console.log('User link copied to clipboard:', userLink);
-            })
-            .catch((error) => {
-                console.error('Error copying user link:', error);
-            });
-    };
+    
     function handleCopyClick(userId: string) {
         copyUserLink(userId);
     };
@@ -94,3 +85,17 @@ function InvitationList() {
 }
 
 export default InvitationList;
+
+
+export const copyUserLink = (userId: string | undefined) => {
+    if (!userId) return;
+
+    const userLink = `https://geburtstag.marvinbangemann.de/?user_id=${userId}`;
+    navigator.clipboard.writeText(userLink)
+        .then(() => {
+            console.log('User link copied to clipboard:', userLink);
+        })
+        .catch((error) => {
+            console.error('Error copying user link:', error);
+        });
+};
