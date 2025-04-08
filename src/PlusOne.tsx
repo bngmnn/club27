@@ -1,4 +1,4 @@
-import { useState, useCallback } from "react";
+import { useState, useCallback, useEffect } from "react";
 import { supabase } from "./client";
 import { Link } from "lucide-react";
 import { copyUserLink } from "./InvitationList";
@@ -41,13 +41,22 @@ const PlusOne = ({userId}: PlusOneParams) => {
         }
         console.log(data);
     }
-    
+
+    useEffect(() => {
+        const fetchPlusOneUserId = async () => {
+          const plusOneUserId = await getPlusOneUserId();
+          setPlusOneUserId(plusOneUserId);
+        };
+      
+        fetchPlusOneUserId();
+      }, [getPlusOneUserId]);
+
     return (
         <>
         {!!plusOneName && 
             <>
-                <a className="text-amber-500 inline-flex items-center gap-2 cursor-pointer" onClick={() => copyUserLink(plusOneUserId)}><Link className='w-4 h-4' />Einladungslink für <strong>{plusOneName}</strong> kopieren</a>
-                <button className="text-center text-amber-700" onClick={() => setPlusOneName("")}>Du möchtest deinen +1 ändern?</button>
+                <a className="text-amber-500 inline-flex items-center gap-2 cursor-pointer border-amber-500 rounded" onClick={() => copyUserLink(plusOneUserId)}><Link className='w-4 h-4' />Einladungslink für <strong>{plusOneName}</strong> kopieren</a>
+                <button className="text-center text-amber-700 cursor-pointer border border-amber-700 rounded" onClick={() => setPlusOneName("")}>Du möchtest deinen +1 ändern?</button>
             </>
         }
         {!plusOneName && 
