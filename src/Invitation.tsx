@@ -21,11 +21,12 @@ const Invitation = ({inviteeName}: InvitationParams) => {
                 Ich wäre super happy, wenn du gemeinsam mit uns am 14. Juni 25 feiern würdest.
             </p>
             </div>
-            <p className="text-sm text-center">Du kannst deine Auswahl jederzeit ändern</p>
+            
             <div className="flex flex-row justify-evenly gap-8 my-4 mt-12">
                 <button onClick={() => declineInvitation()} className="text-red-100 font-black p-8 rounded-full bg-red-400 hover:text-white"><ThumbsDown size={40} strokeWidth={2} /></button>
                 <button onClick={() => acceptInvitation()} className="text-green-100 font-black p-8 rounded-full bg-green-500 hover:text-white"><ThumbsUp size={40} strokeWidth={2}/></button>
             </div>
+            <p className="text-sm text-center">Du kannst deine Auswahl jederzeit ändern</p>
         </>
     )
 }
