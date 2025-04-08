@@ -71,6 +71,27 @@ function InviteePage({userId}: InviteePageParams) {
 
         <hr className="border-amber-900/30" />
 
+        <div className="text-left">
+          <label htmlFor="brings" className="block text-lg font-semibold text-amber-700 mb-2">
+            Möchtest du etwas zu essen mitbringen?
+          </label>
+          <textarea
+            id="brings"
+            name="brings"
+            placeholder="Falls ja, was möchtest du mitbringen?"
+            className="w-full border border-amber-300 rounded-lg p-3 focus:outline-none focus:ring-2 focus:ring-amber-400 resize-none"
+            rows={3}
+          ></textarea>
+          <button
+            className="mt-3 bg-amber-500 hover:bg-amber-600 text-white font-bold py-2 px-4 rounded transition"
+            onClick={() => console.log("Save bring item")} // Replace with your logic
+          >
+            Speichern
+          </button>
+        </div>
+        
+        <hr className="border-amber-900/30" />
+
         <button
           onClick={() => declineInvitation(userId ?? "")}
           className="text-red-700 font-bold py-3 px-6 border border-red-300 hover:bg-red-50 rounded transition"
