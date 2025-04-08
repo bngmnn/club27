@@ -7,6 +7,7 @@ import { supabase } from './client';
 import { getPlusOneName, getPlusOneUserId } from './PlusOne';
 import { useCallback, useEffect, useState } from 'react';
 import './App.css'
+import { toast } from 'react-toastify';
 
 function MainPage() {
     async function simulateInvitationState() {
@@ -79,7 +80,7 @@ function MainPage() {
             <Header userId={userId} />
             <div className="relative z-0 bg-transparent mt-8">
             {invitationState === "pending" && <Invitation userId={userId} inviteeName={inviteeName} />}
-            {invitationState === "accepted" && <InviteePage userId={userId} />}
+            {invitationState === "accepted" && <InviteePage userId={userId} inviteeName={inviteeName} />}
 
             {invitationState === "declined" && 
                 <>
@@ -121,8 +122,10 @@ export async function updateInvitationState({state, userId}: UpdateInvitationSta
   
   export async function acceptInvitation(userId: string) {
     await updateInvitationState({state: "accepted", userId});
+    toast('Cool, ich freue mich auf dich! 🫠')
   }
   
   export async function declineInvitation(userId: string) {
     await updateInvitationState({state: "declined", userId});
+    toast('Schade! Aber vielleicht nächstes Jahr? 🤗')
   }  
