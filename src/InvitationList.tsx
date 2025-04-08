@@ -17,7 +17,6 @@ type Invitation = {
 };
 type InvitationWithInviter = Invitation & { invited_by_name?: string | null };
 
-
 function InvitationList() {
     const [invitations, setInvitations] = useState<InvitationWithInviter[]>([]);
 
@@ -27,17 +26,17 @@ function InvitationList() {
                 .from('guests')
                 .select('id, name, user_id, invitation_state, invited_by, plus_one_name, brings');
 
-                const nameMap = new Map<string, string>();
-                data?.forEach((inv) => {
-                    nameMap.set(inv.user_id, inv.name);
-                });
-        
-                const enriched = data?.map((inv) => ({
-                    ...inv,
-                    invited_by_name: inv.invited_by ? nameMap.get(inv.invited_by) : null
-                })) as InvitationWithInviter[];
-        
-                setInvitations(enriched);
+            const nameMap = new Map<string, string>();
+            data?.forEach((inv) => {
+                nameMap.set(inv.user_id, inv.name);
+            });
+
+            const enriched = data?.map((inv) => ({
+                ...inv,
+                invited_by_name: inv.invited_by ? nameMap.get(inv.invited_by) : null,
+            })) as InvitationWithInviter[];
+
+            setInvitations(enriched);
         };
 
         fetchInvitations();
@@ -61,13 +60,40 @@ function InvitationList() {
         toast('Link erfolgreich kopiert!');
     };
 
+    const updateInvitationState = async (id: number, newState: InvitationState) => {
+        const { data, error } = await supabase
+            .from('guests')
+            .update({ invitation_state: newState })
+            .eq('id', id);
+
+        if (error) {
+            toast.error('Fehler beim Aktualisieren des Status');
+            console.error(error);
+        } else {
+            toast.success('Status erfolgreich aktualisiert!');
+            setInvitations((prevInvitations) =>
+                prevInvitations.map((invitation) =>
+                    invitation.id === id ? { ...invitation, invitation_state: newState } : invitation
+                )
+            );
+        }
+    };
+
     return (
         <div className="container mx-auto p-4">
             <h1 className="text-2xl font-bold mb-4">Einladungsstatus</h1>
-            <h2 className="text-lg font-bold mb-4 pb-4 border-b space-x-4">Eingeladene Gäste: {invitations.length}<br />
-            <span className="text-green-500">Zusagen: {invitations.filter((inv) => inv.invitation_state === "accepted").length}</span>
-            <span className="text-yellow-500">Ausstehend: {invitations.filter((inv) => inv.invitation_state === "pending").length}</span>
-            <span className="text-red-500">Absagen: {invitations.filter((inv) => inv.invitation_state === "declined").length}</span>
+            <h2 className="text-lg font-bold mb-4 pb-4 border-b space-x-4">
+                Eingeladene Gäste: {invitations.length}
+                <br />
+                <span className="text-green-500">
+                    Zusagen: {invitations.filter((inv) => inv.invitation_state === 'accepted').length}
+                </span>
+                <span className="text-yellow-500">
+                    Ausstehend: {invitations.filter((inv) => inv.invitation_state === 'pending').length}
+                </span>
+                <span className="text-red-500">
+                    Absagen: {invitations.filter((inv) => inv.invitation_state === 'declined').length}
+                </span>
             </h2>
             <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
                 {invitations.map((invitation) => (
@@ -82,17 +108,30 @@ function InvitationList() {
                             </button>
                         </div>
                         <p className="text-sm mb-1">
-                            <span className="font-medium">Bringt mit:</span><br />
+                            <span className="font-medium">Bringt mit:</span>
+                            <br />
                             {invitation.brings || '-'}
                         </p>
                         <p className="text-sm mb-1">
                             <span className="font-medium">Eingeladen von:</span> {invitation.invited_by_name || '-'}
                         </p>
+                        <div className="mt-4">
+                            <label className="block text-sm font-medium">Einladungsstatus</label>
+                            <select
+                                value={invitation.invitation_state}
+                                onChange={(e) => updateInvitationState(invitation.id, e.target.value as InvitationState)}
+                                className="mt-1 p-2 border rounded"
+                            >
+                                <option value="pending">Ausstehend</option>
+                                <option value="accepted">Zugesagt</option>
+                                <option value="declined">Abgesagt</option>
+                            </select>
+                        </div>
                     </div>
                 ))}
             </div>
         </div>
-    );    
+    );
 }
 
 export default InvitationList;
