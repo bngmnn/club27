@@ -137,7 +137,7 @@ const PlusOne = () => {
             {!plusOneName &&
                 <div className="flex flex-col gap-3">
                     <p className="text-center text-amber-700 text-lg font-semibold">Du bringst einen +&nbsp;1 mit?</p>
-                    <span className="text-center text-xs">Trage einfach seinen/ihren Vornamen ein</span>
+                    <span className="text-center text-xs">Trage einfach seinen/ihren Vornamen ein und klicke auf +1</span>
                     <div className="flex items-center w-full">
                         <input id="plusOneNameInput" className="w-full bg-white rounded rounded-r-none py-2 px-4 border border-amber-500 border-r-none" placeholder="Vorname deines +&nbsp;1" />
                         <button className="bg-amber-500 text-white rounded rounded-l-none p-2 px-4 font-bold border border-amber-500" onClick={addPlusOne}>+&nbsp;1</button>
