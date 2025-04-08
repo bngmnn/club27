@@ -7,11 +7,10 @@ import { supabase } from './client';
 import './App.css'
 
 type InviteePageParams = {
-  userId: string | null;
   inviteeName?: string;
 }
 
-function InviteePage({userId, inviteeName}: InviteePageParams) {
+function InviteePage({inviteeName}: InviteePageParams) {
 
     const [isInvitedBy, setIsInvitedBy] = useState<boolean>(false);
 
@@ -78,18 +77,18 @@ function InviteePage({userId, inviteeName}: InviteePageParams) {
         {!isInvitedBy && (
           <>
             <hr className="border-amber-900/30" />
-            <PlusOne userId={userId} />
+            <PlusOne />
           </>
         )}
 
         <hr className="border-amber-900/30" />
 
-        <Brings userId={userId ?? ""} />
+        <Brings />
 
         <hr className="border-amber-900/30" />
 
         <button
-          onClick={() => declineInvitation(userId ?? "")}
+          onClick={() => declineInvitation()}
           className="text-red-700 font-bold py-3 px-6 border border-red-300 hover:bg-red-50 rounded transition"
         >
           Ich kann leider doch nicht kommen

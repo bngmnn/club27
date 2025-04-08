@@ -1,12 +1,9 @@
 import { toast } from "react-toastify";
 import { supabase } from "./client";
-import { useState } from "react";
+import { useState, useCallback, useEffect } from "react";
 
-type BringsParams = {
-    userId: string;
-}
 
-const Brings = ({userId}: BringsParams) => {
+const Brings = () => {
 
     const [brings, setBrings] = useState<string>("");
 
@@ -14,7 +11,7 @@ const Brings = ({userId}: BringsParams) => {
         const { data, error } = await supabase
           .from("guests")
           .update({ brings: brings })
-          .eq("user_id", userId)
+          .eq("user_id", window.localStorage.getItem("user_id"))
           .select();
       if (error) {
           console.error(error);
@@ -23,6 +20,26 @@ const Brings = ({userId}: BringsParams) => {
       console.log(data);
       toast('Vielen Dank! Du kannst jederzeit ändern oder ergänzen was du mitbringst 🤗')
     }
+
+    const getBrings = useCallback(async () => {
+        const { data, error } = await supabase
+            .from("guests")
+            .select("brings")
+            .eq("user_id", window.localStorage.getItem("user_id"))
+            .single();
+    
+        if (error) {
+            console.error(error);
+            return;
+        }
+    
+        setBrings(data.brings);
+    }, [window.localStorage.getItem("user_id")]);
+    
+    useEffect(() => {
+        getBrings();
+    }, [getBrings]);
+
     const handleBringsValue = (event: React.ChangeEvent<HTMLTextAreaElement>) => {
         setBrings(event.target.value);
     }

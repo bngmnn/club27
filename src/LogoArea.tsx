@@ -1,7 +1,6 @@
-type LogoArea = {
-  animateLogo: boolean;
-}
-export const LogoArea = ({animateLogo}: LogoArea) => {
+
+export const LogoArea = () => {
+  const animateLogo = !!window.localStorage.getItem("user_id")
   return (
     <>
     <div className={`bg-[url('/stag.png')] bg-contain bg-center w-full h-screen bg-no-repeat flex items-center justify-center text-center mix-blend-multiply relative z-10 ${animateLogo ? 'animate-[logoarea_4s_ease-in-out_forwards]' : 'overflow-hidden'}`}>

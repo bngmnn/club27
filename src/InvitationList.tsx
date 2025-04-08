@@ -1,44 +1,46 @@
-// InvitationList.tsx
 import { useEffect, useState } from 'react';
 import { supabase } from './client';
 import { ClipboardCopy } from 'lucide-react';
-import './App.css'
+import './App.css';
+
+type InvitationState = 'accepted' | 'declined' | 'pending';
 
 type Invitation = {
     id: number;
     user_id: string;
     name: string;
     invitation_state: InvitationState;
+    invited_by?: string;
+    plus_one_name?: string;
+    brings?: string;
 };
+type InvitationWithInviter = Invitation & { invited_by_name?: string | null };
 
-// Define the type for the invitation state
-type InvitationState = 'accepted' | 'declined' | 'pending';
 
 function InvitationList() {
-    const [invitations, setInvitations] = useState<Invitation[]>([]);
-    const [isLoading, setIsLoading] = useState(true);
+    const [invitations, setInvitations] = useState<InvitationWithInviter[]>([]);
 
     useEffect(() => {
         const fetchInvitations = async () => {
-            const { data, error } = await supabase
+            const { data } = await supabase
                 .from('guests')
-                .select('id, name, user_id, invitation_state');
+                .select('id, name, user_id, invitation_state, invited_by, plus_one_name, brings');
 
-            if (error) {
-                console.error('Error fetching invitations:', error);
-                setIsLoading(false);
-                return;
-            }
-            setInvitations(data as unknown as Invitation[]);
-            setIsLoading(false);
+                const nameMap = new Map<string, string>();
+                data?.forEach((inv) => {
+                    nameMap.set(inv.user_id, inv.name);
+                });
+        
+                const enriched = data?.map((inv) => ({
+                    ...inv,
+                    invited_by_name: inv.invited_by ? nameMap.get(inv.invited_by) : null
+                })) as InvitationWithInviter[];
+        
+                setInvitations(enriched);
         };
 
         fetchInvitations();
     }, []);
-
-    if (isLoading) {
-        return <div className="flex items-center justify-center h-screen text-xl">Loading...</div>;
-    }
 
     const getStatusColor = (state: InvitationState) => {
         switch (state) {
@@ -52,40 +54,46 @@ function InvitationList() {
                 return '';
         }
     };
-    
-    function handleCopyClick(userId: string) {
+
+    const handleCopyClick = (userId: string) => {
         copyUserLink(userId);
     };
 
     return (
-        <>
         <div className="container mx-auto p-4">
             <h1 className="text-2xl font-bold mb-4">Einladungsstatus</h1>
-            <table className="min-w-full bg-white border border-gray-300 rounded shadow">
-                <thead>
-                    <tr className="bg-gray-200 text-gray-700">
-                        <th className="py-2 px-4 border-b">Link</th>
-                        <th className="py-2 px-4 border-b">Name</th>
-                        <th className="py-2 px-4 border-b">Einladungsstatus</th>
-                    </tr>
-                </thead>
-                <tbody>
-                    {invitations.map((invitation) => (
-                        <tr key={invitation.id} className={`${getStatusColor(invitation.invitation_state)} hover:bg-gray-200`}>
-                            <td className="py-2 px-4 border-b"><button onClick={() => handleCopyClick(invitation.user_id)}><ClipboardCopy size={28} /></button></td>
-                            <td className="py-2 px-4 border-b">{invitation.name}</td>
-                            <td className="py-2 px-4 border-b">{invitation.invitation_state}</td>
-                        </tr>
-                    ))}
-                </tbody>
-            </table>
+            <h2 className="text-lg font-bold mb-4 pb-4 border-b space-x-4">Eingeladene Gäste: {invitations.length}<br />
+            <span className="text-green-500">Zusagen: {invitations.filter((inv) => inv.invitation_state === "accepted").length}</span>
+            <span className="text-yellow-500">Ausstehend: {invitations.filter((inv) => inv.invitation_state === "pending").length}</span>
+            <span className="text-red-500">Absagen: {invitations.filter((inv) => inv.invitation_state === "declined").length}</span>
+            </h2>
+            <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
+                {invitations.map((invitation) => (
+                    <div
+                        key={invitation.id}
+                        className={`rounded border p-4 shadow ${getStatusColor(invitation.invitation_state)}`}
+                    >
+                        <div className="flex justify-between items-center mb-2">
+                            <h2 className="text-lg font-semibold">{invitation.name}</h2>
+                            <button onClick={() => handleCopyClick(invitation.user_id)}>
+                                <ClipboardCopy size={18} />
+                            </button>
+                        </div>
+                        <p className="text-sm mb-1">
+                            <span className="font-medium">Bringt mit:</span><br />
+                            {invitation.brings || '-'}
+                        </p>
+                        <p className="text-sm mb-1">
+                            <span className="font-medium">Eingeladen von:</span> {invitation.invited_by_name || '-'}
+                        </p>
+                    </div>
+                ))}
+            </div>
         </div>
-        </>
-    );
+    );    
 }
 
 export default InvitationList;
-
 
 export const copyUserLink = (userId: string | undefined) => {
     if (!userId) return;

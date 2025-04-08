@@ -6,8 +6,8 @@ import Invitation from './Invitation';
 import { supabase } from './client';
 import { getPlusOneName, getPlusOneUserId } from './PlusOne';
 import { useCallback, useEffect, useState } from 'react';
-import './App.css'
 import { toast } from 'react-toastify';
+import './App.css'
 
 function MainPage() {
     async function simulateInvitationState() {
@@ -77,17 +77,17 @@ function MainPage() {
     
       return (
         <main className={`flex flex-col items-center w-screen min-h-screen font-serif text-gray-700/90 overflow-x-hidden overflow-y-auto px-8 pb-8 ${!!userId ? '' : 'max-h-screen'}`}>
-            <Header userId={userId} />
+            <Header />
             <div className="relative z-0 bg-transparent mt-8">
-            {invitationState === "pending" && <Invitation userId={userId} inviteeName={inviteeName} />}
-            {invitationState === "accepted" && <InviteePage userId={userId} inviteeName={inviteeName} />}
+            {invitationState === "pending" && <Invitation inviteeName={inviteeName} />}
+            {invitationState === "accepted" && <InviteePage inviteeName={inviteeName} />}
 
             {invitationState === "declined" && 
                 <>
                 <p className="text-center">Du hast die Einladung bereits abgelehnt.</p>
                 <p className="text-center">Du möchtest dich noch einmal anders entscheiden?</p>
 
-                <button className="mt-4 text-green-700 font-black p-4 border rounded" onClick={() => acceptInvitation(userId ?? "")}>Ich hab' meine Meinung geändert, ich komme doch</button>
+                <button className="mt-4 text-green-700 font-black p-4 border rounded" onClick={() => acceptInvitation()}>Ich hab' meine Meinung geändert, ich komme doch</button>
                 </>
             }
             </div>
@@ -99,16 +99,12 @@ function MainPage() {
 
 export default MainPage;
 
-type UpdateInvitationStateParams = {
-    state: string;
-    userId: string;
-}
 
-export async function updateInvitationState({state, userId}: UpdateInvitationStateParams) {
+export async function updateInvitationState(state: string ) {
     const { data, error } = await supabase
       .from("guests")
       .update({ invitation_state: state })
-      .eq("user_id", userId)
+      .eq("user_id", window.localStorage.getItem("user_id"))
       .select();
   
     if (error) {
@@ -120,12 +116,12 @@ export async function updateInvitationState({state, userId}: UpdateInvitationSta
     window.location.reload()
   }
   
-  export async function acceptInvitation(userId: string) {
-    await updateInvitationState({state: "accepted", userId});
+  export async function acceptInvitation() {
+    await updateInvitationState("accepted");
     toast('Cool, ich freue mich auf dich! 🫠')
   }
   
-  export async function declineInvitation(userId: string) {
-    await updateInvitationState({state: "declined", userId});
+  export async function declineInvitation() {
+    await updateInvitationState("declined");
     toast('Schade! Aber vielleicht nächstes Jahr? 🤗')
   }  

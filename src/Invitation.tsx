@@ -2,10 +2,9 @@ import { declineInvitation, acceptInvitation } from "./MainPage"
 import { ThumbsDown, ThumbsUp } from 'lucide-react';
 
 type InvitationParams = {
-    userId: string | null;
     inviteeName?: string;
 }
-const Invitation = ({userId, inviteeName}: InvitationParams) => {
+const Invitation = ({inviteeName}: InvitationParams) => {
     
     return (
         <>
@@ -22,9 +21,9 @@ const Invitation = ({userId, inviteeName}: InvitationParams) => {
                 Ich wäre super happy, wenn du gemeinsam mit uns am 14. Juni 25 feiern würdest.
             </p>
             </div>
-            <div className="flex flex-row justify-around gap-8 my-4">
-                <button onClick={() => declineInvitation(userId ?? "")} className="text-red-800 font-black p-8 rounded-2xl border-red-800 border-2 hover:bg-red-400 hover:text-white"><ThumbsDown size={40} strokeWidth={2} /></button>
-                <button onClick={() => acceptInvitation(userId ?? "")} className="text-green-700 font-black p-8 rounded-2xl border-green-700 border-2 hover:bg-green-300 hover:text-white"><ThumbsUp size={40} strokeWidth={2}/></button>
+            <div className="flex flex-row justify-around gap-8 my-4 mt-12">
+                <button onClick={() => declineInvitation()} className="text-red-100 font-black p-8 rounded-full bg-red-400 hover:text-white"><ThumbsDown size={40} strokeWidth={2} /></button>
+                <button onClick={() => acceptInvitation()} className="text-green-100 font-black p-8 rounded-full bg-green-500 hover:text-white"><ThumbsUp size={40} strokeWidth={2}/></button>
             </div>
         </>
     )

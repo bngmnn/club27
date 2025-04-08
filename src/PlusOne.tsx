@@ -4,11 +4,8 @@ import { Link } from "lucide-react";
 import { copyUserLink } from "./InvitationList";
 import { toast } from "react-toastify";
 
-type PlusOneParams = {
-    userId: string | null;
-}
 
-const PlusOne = ({userId}: PlusOneParams) => {
+const PlusOne = () => {
 
     const [plusOneName, setPlusOneName] = useState<string>("");
     const [plusOneUserId, setPlusOneUserId] = useState<string | undefined>();
@@ -19,7 +16,7 @@ const PlusOne = ({userId}: PlusOneParams) => {
         const plusOneName = plusOneNameInput.value;
         const { data, error } = await supabase
             .from("guests")
-            .insert({ name: plusOneName, invited_by: userId })
+            .insert({ name: plusOneName, invited_by: window.localStorage.getItem("user_id") })
             .select();
         if (error) {
             console.error(error);
@@ -35,7 +32,7 @@ const PlusOne = ({userId}: PlusOneParams) => {
         const { data, error } = await supabase
             .from("guests")
             .update({ plus_one_name: plusOneName })
-            .eq("user_id", userId)
+            .eq("user_id", window.localStorage.getItem("user_id"))
             .select();
         if (error) {
             console.error(error);
