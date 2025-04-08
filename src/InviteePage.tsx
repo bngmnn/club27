@@ -1,6 +1,8 @@
 import { AddToCalendarButton, AddToCalendarButtonType } from 'add-to-calendar-button-react';
+import { useCallback } from 'react';
 import { declineInvitation } from './MainPage';
 import PlusOne from './PlusOne';
+import { supabase } from './client';
 import './App.css'
 
 type InviteePageParams = {
@@ -25,6 +27,19 @@ function InviteePage({userId}: InviteePageParams) {
       label: 'Save the date',
     }
 
+    const isInvited = useCallback(async () => {
+      const { data, error } = await supabase
+          .from("guests")
+          .select("invited_by")
+          .eq("user_id", window.localStorage.getItem("user_id"))
+          .single();
+      if (error) {
+          console.error(error);
+          return;
+      }
+      console.log(data);
+      return data.invited_by;
+    }, []);
     
   return (
     <>
@@ -36,8 +51,10 @@ function InviteePage({userId}: InviteePageParams) {
 
         <a className="text-white bg-amber-500 font-black p-4 rounded" href="/dresscode">Zum Dresscode</a>
 
-      <hr className="w-full border-amber-900/30" />
+      {!isInvited && <>
+        <hr className="w-full border-amber-900/30" />
         <PlusOne userId={userId} />
+      </>}
       <hr className="w-full border-amber-900/30" />
         <button className="text-red-800 font-black p-4 border rounded" onClick={() => declineInvitation(userId ?? "")}>Ich kann leider doch nicht kommen</button>
     </div>

@@ -60,7 +60,6 @@ function MainPage() {
         console.log(data);
         setInviteeName(data.name);
       }, []);
-  
       
   
       useEffect(() => {
