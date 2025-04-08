@@ -103,20 +103,20 @@ const PlusOne = () => {
         <>
             {/* Confirmation Modal */}
             {showConfirmModal && (
-                <div className="fixed inset-0 flex justify-center items-center bg-black bg-opacity-50 z-50">
+                <div className="fixed inset-0 flex justify-center items-center bg-black/50 z-50">
                     <div className="bg-white p-6 rounded-lg shadow-lg max-w-sm w-full">
                         <p className="text-lg text-center text-amber-700 mb-4">
-                            Der Name "{duplicateName}" ist bereits eingeladen. Bist du sicher, dass es sich um eine andere Person handelt?
+                            Jemand mit dem Namen "{duplicateName}" ist bereits eingeladen. Bist du sicher, dass es sich um eine andere Person handelt?
                         </p>
-                        <div className="flex justify-between">
+                        <div className="flex justify-between w-full">
                             <button
-                                className="bg-amber-500 text-white p-2 rounded w-24"
+                                className="bg-amber-500 text-white p-2 rounded w-auto"
                                 onClick={handleConfirm}
                             >
                                 Ja, ich bin mir sicher
                             </button>
                             <button
-                                className="bg-gray-300 text-black p-2 rounded w-24"
+                                className="bg-gray-300 text-black p-2 rounded w-auto"
                                 onClick={handleCancel}
                             >
                                 Abbrechen
