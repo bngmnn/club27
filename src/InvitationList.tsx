@@ -61,7 +61,7 @@ function InvitationList() {
     };
 
     const updateInvitationState = async (id: number, newState: InvitationState) => {
-        const { data, error } = await supabase
+        const { error } = await supabase
             .from('guests')
             .update({ invitation_state: newState })
             .eq('id', id);
@@ -115,18 +115,20 @@ function InvitationList() {
                         <p className="text-sm mb-1">
                             <span className="font-medium">Eingeladen von:</span> {invitation.invited_by_name || '-'}
                         </p>
-                        <div className="mt-4">
-                            <label className="block text-sm font-medium">Einladungsstatus</label>
-                            <select
-                                value={invitation.invitation_state}
-                                onChange={(e) => updateInvitationState(invitation.id, e.target.value as InvitationState)}
-                                className="mt-1 p-2 border rounded"
-                            >
-                                <option value="pending">Ausstehend</option>
-                                <option value="accepted">Zugesagt</option>
-                                <option value="declined">Abgesagt</option>
-                            </select>
-                        </div>
+                        {invitation.id === 3 && 
+                            <div className="mt-4">
+                                <label className="block text-sm font-medium">Einladungsstatus</label>
+                                <select
+                                    value={invitation.invitation_state}
+                                    onChange={(e) => updateInvitationState(invitation.id, e.target.value as InvitationState)}
+                                    className="mt-1 p-2 border rounded"
+                                >
+                                    <option value="pending">Ausstehend</option>
+                                    <option value="accepted">Zugesagt</option>
+                                    <option value="declined">Abgesagt</option>
+                                </select>
+                            </div>
+                        }
                     </div>
                 ))}
             </div>
