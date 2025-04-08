@@ -1,4 +1,4 @@
-import { useState, useCallback, useEffect } from "react";
+import { useState, useEffect } from "react";
 import { supabase } from "./client";
 import { Link } from "lucide-react";
 import { copyUserLink } from "./InvitationList";
@@ -76,7 +76,7 @@ const PlusOne = ({userId}: PlusOneParams) => {
 export default PlusOne;
 
 
-export const getPlusOneName = useCallback(async () => {
+export const getPlusOneName = async () => {
     const { data, error } = await supabase
       .from("guests")
       .select("plus_one_name")
@@ -87,8 +87,8 @@ export const getPlusOneName = useCallback(async () => {
       return; // Or handle error accordingly
     }
     return data.plus_one_name;
-}, []);
-export const getPlusOneUserId = useCallback(async () => {
+};
+export const getPlusOneUserId = async () => {
     const { data, error } = await supabase
       .from("guests")
       .select("user_id")
@@ -99,4 +99,4 @@ export const getPlusOneUserId = useCallback(async () => {
       return; // Or handle error accordingly
     }
     return data.user_id;
-}, [getPlusOneName]);
+};
