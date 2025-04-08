@@ -2,6 +2,7 @@ import { useEffect, useState } from 'react';
 import { supabase } from './client';
 import { ClipboardCopy } from 'lucide-react';
 import './App.css';
+import { toast } from 'react-toastify';
 
 type InvitationState = 'accepted' | 'declined' | 'pending';
 
@@ -57,6 +58,7 @@ function InvitationList() {
 
     const handleCopyClick = (userId: string) => {
         copyUserLink(userId);
+        toast('Link erfolgreich kopiert!');
     };
 
     return (
