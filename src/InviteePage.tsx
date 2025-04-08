@@ -43,21 +43,42 @@ function InviteePage({userId}: InviteePageParams) {
     
   return (
     <>
-      <div data-calendar-buttons className="text-center flex justify-center flex-col items-center gap-4">
-        <p className="text-center text-xl">Du hast die Einladung angenommen!</p>
-        <p className="text-center">Nice! Ich freue mich auf dich!</p>
-        <AddToCalendarButton {...calendarEvent}></AddToCalendarButton>
-      <hr className="w-full border-amber-900/30" />
+      <div data-calendar-buttons className="max-w-xl mx-auto flex flex-col gap-6 p-6 bg-white rounded-2xl shadow-md text-center">
+        <div>
+          <h2 className="text-2xl font-semibold text-amber-700">Du hast die Einladung angenommen!</h2>
+          <p className="text-gray-700">Nice! Ich freue mich auf dich!</p>
+        </div>
 
-        <a className="text-white bg-amber-500 font-black p-4 rounded" href="/dresscode">Zum Dresscode</a>
+        <div className="flex justify-center">
+          <AddToCalendarButton {...calendarEvent} />
+        </div>
 
-      {!isInvited && <>
-        <hr className="w-full border-amber-900/30" />
-        <PlusOne userId={userId} />
-      </>}
-      <hr className="w-full border-amber-900/30" />
-        <button className="text-red-800 font-black p-4 border rounded" onClick={() => declineInvitation(userId ?? "")}>Ich kann leider doch nicht kommen</button>
-    </div>
+        <hr className="border-amber-900/30" />
+
+        <a
+          href="/dresscode"
+          className="bg-amber-500 hover:bg-amber-600 text-white font-bold py-3 px-6 rounded transition"
+        >
+          Zum Dresscode
+        </a>
+
+        {!isInvited && (
+          <>
+            <hr className="border-amber-900/30" />
+            <PlusOne userId={userId} />
+          </>
+        )}
+
+        <hr className="border-amber-900/30" />
+
+        <button
+          onClick={() => declineInvitation(userId ?? "")}
+          className="text-red-700 font-bold py-3 px-6 border border-red-300 hover:bg-red-50 rounded transition"
+        >
+          Ich kann leider doch nicht kommen
+        </button>
+      </div>
+
     </>
   )
 }
