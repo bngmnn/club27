@@ -112,8 +112,10 @@ export async function updateInvitationState(state: string ) {
       return; // Or handle error accordingly
     }
     console.log(data);
-      
-    window.location.reload()
+    
+    setTimeout(function() {
+        window.location.reload()
+    }, 420);
   }
   
   export async function acceptInvitation() {
