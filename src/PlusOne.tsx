@@ -7,6 +7,8 @@ import { toast } from "react-toastify";
 const PlusOne = () => {
     const [plusOneName, setPlusOneName] = useState<string>("");
     const [plusOneUserId, setPlusOneUserId] = useState<string | undefined>();
+    const [showConfirmModal, setShowConfirmModal] = useState<boolean>(false); // Modal state
+    const [duplicateName, setDuplicateName] = useState<string | null>(null); // Store the name that caused the duplicate
 
     // Function to check if the name already exists
     const checkDuplicateName = async (name: string) => {
@@ -30,12 +32,16 @@ const PlusOne = () => {
         const duplicate = await checkDuplicateName(plusOneName);
 
         if (duplicate) {
-            const userConfirmed = window.confirm(`Der Name "${plusOneName}" ist bereits eingeladen. Bist du sicher, dass es sich um eine andere Person handelt?`);
-            if (!userConfirmed) {
-                return; // If the user isn't sure, do not proceed
-            }
+            setDuplicateName(plusOneName); // Set duplicate name
+            setShowConfirmModal(true); // Show confirmation modal
+            return; // Don't proceed until the user confirms
         }
 
+        // Proceed to add the new +1 name
+        await insertPlusOne(plusOneName);
+    }
+
+    const insertPlusOne = async (plusOneName: string) => {
         const { data, error } = await supabase
             .from("guests")
             .insert({ name: plusOneName, invited_by: window.localStorage.getItem("user_id") })
@@ -48,10 +54,9 @@ const PlusOne = () => {
 
         console.log(data);
         setPlusOneName(plusOneName);
-        plusOneNameInput.value = "";
         toast('Dein +1 wurde hinzugefügt 🤜🤛');
         await updatePlusOneInCurrentUser(plusOneName);
-    }
+    };
 
     async function updatePlusOneInCurrentUser(plusOneName: string) {
         const { data, error } = await supabase
@@ -65,6 +70,20 @@ const PlusOne = () => {
         }
         console.log(data);
     }
+
+    // Confirm the action and add the name
+    const handleConfirm = async () => {
+        if (duplicateName) {
+            await insertPlusOne(duplicateName); // Add the duplicate name as a new +1
+            setShowConfirmModal(false); // Close modal
+            setDuplicateName(null); // Clear the duplicate name state
+        }
+    };
+
+    // Cancel the action and close the modal
+    const handleCancel = () => {
+        setShowConfirmModal(false); // Close modal without doing anything
+    };
 
     useEffect(() => {
         const fetchPlusOneUserId = async () => {
@@ -82,6 +101,32 @@ const PlusOne = () => {
 
     return (
         <>
+            {/* Confirmation Modal */}
+            {showConfirmModal && (
+                <div className="fixed inset-0 flex justify-center items-center bg-black bg-opacity-50 z-50">
+                    <div className="bg-white p-6 rounded-lg shadow-lg max-w-sm w-full">
+                        <p className="text-lg text-center text-amber-700 mb-4">
+                            Der Name "{duplicateName}" ist bereits eingeladen. Bist du sicher, dass es sich um eine andere Person handelt?
+                        </p>
+                        <div className="flex justify-between">
+                            <button
+                                className="bg-amber-500 text-white p-2 rounded w-24"
+                                onClick={handleConfirm}
+                            >
+                                Ja, ich bin mir sicher
+                            </button>
+                            <button
+                                className="bg-gray-300 text-black p-2 rounded w-24"
+                                onClick={handleCancel}
+                            >
+                                Abbrechen
+                            </button>
+                        </div>
+                    </div>
+                </div>
+            )}
+
+            {/* Content */}
             {!!plusOneName &&
                 <div className="flex flex-col gap-2">
                     <p className="text-amber-700 text-lg font-semibold">Dein +1 ist: <strong>{plusOneName}</strong></p>
@@ -100,8 +145,8 @@ const PlusOne = () => {
                 </div>
             }
         </>
-    )
-}
+    );
+};
 
 export default PlusOne;
 
