@@ -145,6 +145,7 @@ export const copyUserLink = (userId: string | undefined) => {
     navigator.clipboard.writeText(userLink)
         .then(() => {
             console.log('User link copied to clipboard:', userLink);
+            toast.success('Einladungslink erfolgreich kopiert!');
         })
         .catch((error) => {
             console.error('Error copying user link:', error);
