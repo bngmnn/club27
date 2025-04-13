@@ -6,6 +6,10 @@ type InvitationParams = {
 }
 const Invitation = ({inviteeName}: InvitationParams) => {
     
+    const [userId, setUserId] = useState<string | null>(window.localStorage.getItem("user_id"));
+
+    
+
     return (
         <>
             <div className="text-left">
@@ -15,6 +19,7 @@ const Invitation = ({inviteeName}: InvitationParams) => {
                 Absolut richtig! Die Queen hat ihrerzeit ihren Geburtstag 
                 lieber im Sommer gefeiert und ich werde es ihr jetzt gleichtun. 
                 <br />
+                
                 Glücklicherweise lässt sich das auch mit der Einweihung unseres neuen Zuhauses,
                 nach Monaten der Renovierung und Wochen der Vorbereitung, kombinieren.
                 <br /><br />
