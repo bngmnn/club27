@@ -1,7 +1,7 @@
 import { declineInvitation, acceptInvitation } from "./MainPage"
 import { ThumbsDown, ThumbsUp } from 'lucide-react';
 import { useState, useEffect } from "react";
-import { supabase } from "./supabase";
+import { supabase } from "./client";
 
 type InvitationParams = {
     inviteeName?: string;
