@@ -8,7 +8,7 @@ type InvitationParams = {
 }
 const Invitation = ({inviteeName}: InvitationParams) => {
     
-    const [userId, setUserId] = useState<string | null>(window.localStorage.getItem("user_id"));
+    const [userId] = useState<string | null>(window.localStorage.getItem("user_id"));
     const [movingInfo, setMovingInfo] = useState<boolean>(true);
 
     async function getMovingInfo() {
