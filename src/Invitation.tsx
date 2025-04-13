@@ -1,5 +1,7 @@
 import { declineInvitation, acceptInvitation } from "./MainPage"
 import { ThumbsDown, ThumbsUp } from 'lucide-react';
+import { useState, useEffect } from "react";
+import { supabase } from "./supabase";
 
 type InvitationParams = {
     inviteeName?: string;
@@ -7,8 +9,26 @@ type InvitationParams = {
 const Invitation = ({inviteeName}: InvitationParams) => {
     
     const [userId, setUserId] = useState<string | null>(window.localStorage.getItem("user_id"));
+    const [movingInfo, setMovingInfo] = useState<boolean>(true);
 
-    
+    async function getMovingInfo() {
+        if (!userId) return;
+        const { data, error } = await supabase
+          .from("guests")
+          .select("moving_info")
+          .eq("user_id", userId)
+          .single();
+        if (error) {
+          console.error(error);
+          return; // Or handle error accordingly
+        }
+        console.log(data);
+        setMovingInfo(data.moving_info);
+      }
+
+    useEffect(() => {
+        getMovingInfo();
+    },[]);
 
     return (
         <>
@@ -19,10 +39,11 @@ const Invitation = ({inviteeName}: InvitationParams) => {
                 Absolut richtig! Die Queen hat ihrerzeit ihren Geburtstag 
                 lieber im Sommer gefeiert und ich werde es ihr jetzt gleichtun. 
                 <br />
-                
-                Glücklicherweise lässt sich das auch mit der Einweihung unseres neuen Zuhauses,
-                nach Monaten der Renovierung und Wochen der Vorbereitung, kombinieren.
-                <br /><br />
+                {!!movingInfo && <>
+                    Glücklicherweise lässt sich das auch mit der Einweihung unseres neuen Zuhauses,
+                    nach Monaten der Renovierung und Wochen der Vorbereitung, kombinieren.
+                    <br /><br />
+                </>}
                 Ich wäre super happy, wenn du gemeinsam mit uns am 14. Juni 25 feiern würdest.
             </p>
             </div>
