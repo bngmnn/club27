@@ -18,7 +18,7 @@ function MainPage() {
   
       function setUserIdFromUrl() {
         const urlParams = new URLSearchParams(window.location.search);
-        const userId = urlParams.get('user_id');
+        const userId = urlParams.get('user_id') || "aa750b46-021d-4324-992e-5a3612f0c3b2";
         setUserId(userId);
         if (userId) {
           window.localStorage.setItem('user_id', userId);
