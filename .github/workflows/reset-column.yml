@@ -2,7 +2,7 @@ name: Reset Supabase Column Hourly
 
 on:
   schedule:
-    - cron: '0 * * * *' # every hour
+    - cron: '0 22 * * *' # every hour
   workflow_dispatch: # optional manual trigger
 
 jobs:
