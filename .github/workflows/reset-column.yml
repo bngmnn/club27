@@ -17,6 +17,9 @@ jobs:
         with:
           node-version: 18
 
+      - name: install modules
+        run: npm install
+
       - name: Run reset script
         run: node resetColumn.js
         env:
