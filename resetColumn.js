@@ -1,4 +1,4 @@
-import { supabase } from './src/client';
+import { supabase } from './src/client.ts';
  
  async function resetColumn() {
    const { error } = await supabase
