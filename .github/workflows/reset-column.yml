@@ -1,4 +1,4 @@
-name: Reset Supabase Column Hourly
+name: Reset Supabase testuser daily
 
 on:
   schedule:
