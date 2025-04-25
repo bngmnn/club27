@@ -8,7 +8,7 @@ const supabase = createClient(supabaseUrl, supabaseKey);
  async function resetColumn() {
    const { error } = await supabase
      .from('guests')
-     .update({ invitation_state: 'pending', brings: NULL, plus_one_name: NULL })
+     .update({ invitation_state: 'pending', brings: 'NULL', plus_one_name: 'NULL' })
      .eq('user_id', 'aa750b46-021d-4324-992e-5a3612f0c3b2');
  
    if (error) {
