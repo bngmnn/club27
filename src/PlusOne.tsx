@@ -1,7 +1,6 @@
 import { useState, useEffect } from "react";
 import { supabase } from "./client";
 import { Link } from "lucide-react";
-import { copyUserLink } from "./InvitationList";
 import { toast } from "react-toastify";
 
 const PlusOne = () => {
