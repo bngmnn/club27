@@ -185,7 +185,7 @@ export const getPlusOneUserId = async () => {
     const { data, error } = await supabase
         .from("guests")
         .select("user_id")
-        .eq("name", getPlusOneName)
+        .eq("name", plusOneName)
         .single();
     if (error) {
         console.error(error);
