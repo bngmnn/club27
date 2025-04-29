@@ -17,6 +17,22 @@ type Invitation = {
 };
 type InvitationWithInviter = Invitation & { invited_by_name?: string | null };
 
+    
+
+export const copyUserLink = (userId: string | undefined) => {
+    if (!userId) return;
+
+    const userLink = `https://geburtstag.marvinbangemann.de/?user_id=${userId}`;
+    navigator.clipboard.writeText(userLink)
+        .then(() => {
+            console.log('User link copied to clipboard:', userLink);
+            toast.success('Einladungslink erfolgreich kopiert!');
+        })
+        .catch((error) => {
+            console.error('Error copying user link:', error);
+        });
+};
+
 export function InvitationList() {
     const [invitations, setInvitations] = useState<InvitationWithInviter[]>([]);
 
@@ -135,17 +151,3 @@ export function InvitationList() {
         </div>
     );
 }
-
-export const copyUserLink = (userId: string | undefined) => {
-    if (!userId) return;
-
-    const userLink = `https://geburtstag.marvinbangemann.de/?user_id=${userId}`;
-    navigator.clipboard.writeText(userLink)
-        .then(() => {
-            console.log('User link copied to clipboard:', userLink);
-            toast.success('Einladungslink erfolgreich kopiert!');
-        })
-        .catch((error) => {
-            console.error('Error copying user link:', error);
-        });
-};
