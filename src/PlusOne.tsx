@@ -24,6 +24,10 @@ const PlusOne = () => {
         return data; // Return the result, null if no match
     };
 
+    const handleCopyClick = () => {
+        copyUserLink(plusOneUserId);
+    };
+
     async function addPlusOne() {
         const plusOneNameInput = document.getElementById("plusOneNameInput") as HTMLInputElement;
         const plusOneName = plusOneNameInput.value;
@@ -130,7 +134,7 @@ const PlusOne = () => {
             {!!plusOneName &&
                 <div className="flex flex-col gap-2">
                     <p className="text-amber-700 text-lg font-semibold">Dein +1 ist: <strong>{plusOneName}</strong></p>
-                    <button className="text-white bg-amber-500 inline-flex justify-center p-2 items-center gap-2 cursor-pointer border border-amber-500 rounded" onClick={() => copyUserLink(plusOneUserId)}><Link className='w-4 h-4' />Einladungslink kopieren</button>
+                    <button className="text-white bg-amber-500 inline-flex justify-center p-2 items-center gap-2 cursor-pointer border border-amber-500 rounded" onClick={() => handleCopyClick()}><Link className='w-4 h-4' />Einladungslink kopieren</button>
                     <button className="text-center text-amber-700 cursor-pointer p-2 border border-amber-700 rounded" onClick={() => setPlusOneName("")}>Du möchtest deinen +1 ändern?</button>
                 </div>
             }
