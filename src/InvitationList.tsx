@@ -17,7 +17,7 @@ type Invitation = {
 };
 type InvitationWithInviter = Invitation & { invited_by_name?: string | null };
 
-function InvitationList() {
+export function InvitationList() {
     const [invitations, setInvitations] = useState<InvitationWithInviter[]>([]);
 
     useEffect(() => {
@@ -135,8 +135,6 @@ function InvitationList() {
         </div>
     );
 }
-
-export default InvitationList;
 
 export const copyUserLink = (userId: string | undefined) => {
     if (!userId) return;
