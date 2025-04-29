@@ -1,6 +1,6 @@
 // App.tsx
 import { BrowserRouter as Router, Routes, Route } from 'react-router-dom';
-import InvitationList from './InvitationList'; // New invitation list component
+import { InvitationList } from './InvitationList'; // New invitation list component
 import Dresscode from './Dresscode';
 import MainPage from './MainPage';
 import { ToastContainer, Slide } from 'react-toastify';
