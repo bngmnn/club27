@@ -28,6 +28,21 @@ const PlusOne = () => {
         copyUserLink(plusOneUserId);
     };
 
+    const copyUserLink = (userId: string | undefined) => {
+        if (!userId) return;
+    
+        const userLink = `https://geburtstag.marvinbangemann.de/?user_id=${userId}`;
+        navigator.clipboard.writeText(userLink)
+            .then(() => {
+                console.log('User link copied to clipboard:', userLink);
+                toast.success('Einladungslink erfolgreich kopiert!');
+            })
+            .catch((error) => {
+                console.error('Error copying user link:', error);
+                toast.error('ups.', error);
+            });
+    };
+
     async function addPlusOne() {
         const plusOneNameInput = document.getElementById("plusOneNameInput") as HTMLInputElement;
         const plusOneName = plusOneNameInput.value;
