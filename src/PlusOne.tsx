@@ -182,6 +182,7 @@ export const getPlusOneName = async () => {
 };
 
 export const getPlusOneUserId = async () => {
+    const plusOneName = await getPlusOneName();
     const { data, error } = await supabase
         .from("guests")
         .select("user_id")
